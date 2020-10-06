@@ -14,12 +14,12 @@ public class Corretora {
 		this.nome = nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
 	public void setExtrato(double extrato) {
 		this.extrato = extrato;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public void setInvestimentos(ArrayList<Investimento> investimentos) {
@@ -36,5 +36,5 @@ public class Corretora {
 
 	public ArrayList<Investimento> getInvestimentos() {
 		return this.investimentos;
-	}	
+	}
 }

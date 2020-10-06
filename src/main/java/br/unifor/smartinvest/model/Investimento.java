@@ -4,25 +4,37 @@ import java.util.ArrayList;
 
 public class Investimento {
 
-	private String empresa;
-	private ArrayList<Historico> historico;
+	private String nomeEmpresa;
+	private ArrayList<Historico> historicos;
 
-	public Investimento(String empresa) {
-		this.empresa = empresa;
-		this.historico = new ArrayList<>();
+	public Investimento(String nomeEmpresa) {
+		this.nomeEmpresa = nomeEmpresa;
+		this.historicos = new ArrayList<>();
 	}
 
-	public String getEmpresa() {
-		return empresa;
+	public String getNomeEmpresa() {
+		return nomeEmpresa;
 	}
+
 	public ArrayList<Historico> getHistorico() {
-		return historico;
+		return historicos;
 	}
 
-	public void setEmpresa(String empresa) {
-		this.empresa = empresa;
+	public void setNomeEmpresa(String nomeEmpresa) {
+		this.nomeEmpresa = nomeEmpresa;
 	}
-	public void setHistorico(ArrayList<Historico> historico) {
-		this.historico = historico;
+
+	public void setHistoricos(ArrayList<Historico> historicos)	{
+		this.historicos = historicos;
+	}
+
+	public double getTotalHistoricos() {
+		double total = 0;
+
+		for(Historico h: historicos) {
+			total += h.getValorInvestido();
+		}
+
+		return total;
 	}
 }
