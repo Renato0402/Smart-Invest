@@ -17,12 +17,18 @@ public class Historico {
 		this.dataRealizada = dataRealizada;
 	}
 
-	public double getValorInvestido() {return valorInvestido;}
-	public Date getDataRealizada() {return dataRealizada;}
+	public double getValorInvestido() {
+		return valorInvestido;
+	}
+	
+	public Date getDataRealizada() {
+		return dataRealizada;
+	}
 
 	public void setValorInvestido(double valorInvestido) {
 		this.valorInvestido = valorInvestido;
 	}
+
 	public void setDataRealizada(Date dataRealizada) {
 		this.dataRealizada = dataRealizada;
 	}

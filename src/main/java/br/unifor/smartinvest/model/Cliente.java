@@ -9,21 +9,40 @@ public class Cliente {
 	private double saldo;
 	private ArrayList<Corretora> corretoras;
 
-	public Cliente(String nome) {
+	public Cliente(int clienteId, String nome) {
+		this.clienteId = clienteId;
 		this.nome = nome;
 		this.corretoras = new ArrayList<>();
 		this.saldo = 0;
 	}
 
-	public String getNome() {return nome;}
-	public int getClienteId() {return clienteId;}
-	public double getSaldo() {return saldo;}
-	public ArrayList<Corretora> getCorretoras() {return corretoras;}
+	public int getClienteId() {
+		return clienteId;
+	}
 
-	public void setNome(String nome) {this.nome = nome;}
-	public void setClienteId(int clienteId) {this.clienteId = clienteId;}
-	public void setSaldo(double saldo) {this.saldo = saldo;}
-	public void setCorretoras(ArrayList<Corretora> corretoras) {this.corretoras = corretoras;}
+	public String getNome() {
+		return nome;
+	}
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public ArrayList<Corretora> getCorretoras() {
+		return corretoras;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
+
+	public void setCorretoras(ArrayList<Corretora> corretoras) {
+		this.corretoras = corretoras;
+	}
 
 	@Override
 	public String toString() {
