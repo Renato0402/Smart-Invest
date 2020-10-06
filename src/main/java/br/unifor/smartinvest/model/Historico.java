@@ -20,7 +20,6 @@ public class Historico {
 	public double getValorInvestido() {
 		return valorInvestido;
 	}
-	
 	public Date getDataRealizada() {
 		return dataRealizada;
 	}
@@ -28,7 +27,6 @@ public class Historico {
 	public void setValorInvestido(double valorInvestido) {
 		this.valorInvestido = valorInvestido;
 	}
-
 	public void setDataRealizada(Date dataRealizada) {
 		this.dataRealizada = dataRealizada;
 	}
