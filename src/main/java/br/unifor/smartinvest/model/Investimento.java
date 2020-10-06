@@ -15,7 +15,6 @@ public class Investimento {
 	public void setNomeEmpresa(String nomeEmpresa) {
 		this.nomeEmpresa = nomeEmpresa;
 	}
-
 	public void setHistoricos(ArrayList<Historico> historicos)	{
 		this.historicos = historicos;
 	}
@@ -23,8 +22,7 @@ public class Investimento {
 	public String getNomeEmpresa() {
 		return nomeEmpresa;
 	}
-
-	public ArrayList<Historico> getHistorico() {
+	public ArrayList<Historico> getHistoricos() {
 		return historicos;
 	}
 }
