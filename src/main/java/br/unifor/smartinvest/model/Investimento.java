@@ -12,14 +12,6 @@ public class Investimento {
 		this.historicos = new ArrayList<>();
 	}
 
-	public String getNomeEmpresa() {
-		return nomeEmpresa;
-	}
-
-	public ArrayList<Historico> getHistorico() {
-		return historicos;
-	}
-
 	public void setNomeEmpresa(String nomeEmpresa) {
 		this.nomeEmpresa = nomeEmpresa;
 	}
@@ -28,13 +20,11 @@ public class Investimento {
 		this.historicos = historicos;
 	}
 
-	public double getTotalHistoricos() {
-		double total = 0;
+	public String getNomeEmpresa() {
+		return nomeEmpresa;
+	}
 
-		for(Historico h: historicos) {
-			total += h.getValorInvestido();
-		}
-
-		return total;
+	public ArrayList<Historico> getHistorico() {
+		return historicos;
 	}
 }
