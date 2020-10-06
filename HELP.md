@@ -1,4 +1,4 @@
-# Read Me First
+# Read Me First :+1:
 The following was discovered as part of building this project:
 
 * The original package name 'br.unifor.smart-invest' is invalid and this project uses 'br.unifor.smartinvest' instead.
