@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Investimento {
 
 	private String nomeEmpresa;
+	private Cliente cliente;
+	private Corretora corretora;
 	private ArrayList<Historico> historicos;
 
 	public Investimento(String nomeEmpresa) {
