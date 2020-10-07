@@ -1,17 +1,13 @@
 package br.unifor.smartinvest.model;
 
-import java.util.ArrayList;
+public class Corretora extends Entidade {
 
-public class Corretora {
-
-	private String nome;
 	private double extrato;
-	private ArrayList<Investimento> investimentos;
 
-	public Corretora(String nome) {
-		this.investimentos = new ArrayList<>();
-		this.extrato = 0;
+	public Corretora(int corretoraId, String nome) {
+		this.id = corretoraId;
 		this.nome = nome;
+		this.extrato = 0;
 	}
 
 	public void setExtrato(double extrato) {
@@ -20,9 +16,6 @@ public class Corretora {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public void setInvestimentos(ArrayList<Investimento> investimentos) {
-		this.investimentos = investimentos;
-	}
 
 	public String getNome() {
 		return this.nome;
@@ -30,7 +23,7 @@ public class Corretora {
 	public double getExtrato() {
 		return this.extrato;
 	}
-	public ArrayList<Investimento> getInvestimentos() {
-		return this.investimentos;
+	public int getId() {
+		return this.id;
 	}
 }

@@ -1,32 +1,23 @@
 package br.unifor.smartinvest.model;
 
-import java.util.ArrayList;
+public class Cliente extends Entidade{
 
-public class Cliente {
-
-	private int clienteId;
-	private String nome;
 	private double saldo;
-	private ArrayList<Corretora> corretoras;
 
 	public Cliente(int clienteId, String nome) {
-		this.clienteId = clienteId;
+		this.id = clienteId;
 		this.nome = nome;
-		this.corretoras = new ArrayList<>();
 		this.saldo = 0;
 	}
 
 	public int getClienteId() {
-		return clienteId;
+		return this.id;
 	}
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 	public double getSaldo() {
 		return saldo;
-	}
-	public ArrayList<Corretora> getCorretoras() {
-		return corretoras;
 	}
 
 	public void setNome(String nome) {
@@ -34,18 +25,5 @@ public class Cliente {
 	}
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;
-	}
-	public void setCorretoras(ArrayList<Corretora> corretoras) {
-		this.corretoras = corretoras;
-	}
-
-	@Override
-	public String toString() {
-		return "Cliente{" +
-				"clienteId=" + clienteId +
-				", nome='" + nome + '\'' +
-				", saldo=" + saldo +
-				", corretoras=" + corretoras +
-				'}';
 	}
 }

@@ -4,25 +4,29 @@ import java.util.ArrayList;
 
 public class Investimento {
 
-	private String nomeEmpresa;
+	private Cliente cliente;
+	private Corretora corretora;
 	private ArrayList<Historico> historicos;
 
-	public Investimento(String nomeEmpresa) {
-		this.nomeEmpresa = nomeEmpresa;
+	public Investimento(Cliente cliente, Corretora corretora) {
+		this.cliente = cliente;
+		this.corretora = corretora;
 		this.historicos = new ArrayList<>();
 	}
 
-	public void setNomeEmpresa(String nomeEmpresa) {
-		this.nomeEmpresa = nomeEmpresa;
-	}
 	public void setHistoricos(ArrayList<Historico> historicos)	{
 		this.historicos = historicos;
 	}
 
-	public String getNomeEmpresa() {
-		return nomeEmpresa;
-	}
 	public ArrayList<Historico> getHistoricos() {
 		return historicos;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public Corretora getCorretora() {
+		return corretora;
 	}
 }
