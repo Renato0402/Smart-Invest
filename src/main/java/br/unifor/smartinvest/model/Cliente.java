@@ -1,24 +1,20 @@
 package br.unifor.smartinvest.model;
 
-import java.util.ArrayList;
+public class Cliente extends Entidade{
 
-public class Cliente {
-
-	private int clienteId;
-	private String nome;
 	private double saldo;
 
 	public Cliente(int clienteId, String nome) {
-		this.clienteId = clienteId;
+		this.id = clienteId;
 		this.nome = nome;
 		this.saldo = 0;
 	}
 
 	public int getClienteId() {
-		return clienteId;
+		return this.id;
 	}
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 	public double getSaldo() {
 		return saldo;
