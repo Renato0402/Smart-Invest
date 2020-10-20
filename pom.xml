@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.unifor</groupId>
-	<artifactId>smart-invest</artifactId>
+	<artifactId>smartinvest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Smart Invest</name>
 	<description>API para gerenciamento de investimentos</description>
