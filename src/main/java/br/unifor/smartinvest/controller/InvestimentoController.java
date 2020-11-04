@@ -14,73 +14,76 @@ public class InvestimentoController {
 		this.listaInvestimentos = new ArrayList<>();
 	}
 
+	// Mostrar todos os investimentos
 	@GetMapping
 	public ArrayList<Investimento> get() {
-		return listaInvestimentos;
+		return this.listaInvestimentos;
 	}
 
+	// Mostrar investimentos ao buscar pelo seu id
+	// Ex.: localhost:8080/investimentos/1
 	@GetMapping("/{id}")
-	public Investimento get(@PathVariable("id") int id) {
-		Investimento investimento = buscarInvestimentoPorClienteId(id);
-		if(investimento != null)
-			return investimento;
+	public ArrayList<Investimento> get(@PathVariable("id") int id) {
+		ArrayList<Investimento> investimentos = this.buscarTodosInvestimentosPorClienteId(id);
 
-		return null;
+		return investimentos;
 	}
 
+	// Adicionar um investimento
 	@PostMapping
 	public String post(@RequestBody Investimento investimento) {
-		if(investimento != null) {
-			this.listaInvestimentos.add(investimento);
-			return "Investimento realizado com sucesso!";
-		}
+		if (adicionarInvestimento(investimento))
+			return "Investimento cadastrado com sucesso!";
 
-		return "Erro ao investir!";
+		return "Erro ao cadastrar investimento!";
 	}
 
-	@PutMapping
-	public String put(@RequestHeader int id, @RequestBody Investimento investimento) {
-		if(alterarClientePorId(id, investimento))
-			return "Alteração de investimento realizada com sucesso!";
-
-		return "Não foi encontrado um investimento realizado por este cliente!";
-	}
-
+	// Remover um investimento ao buscar pelo seu id
 	@DeleteMapping
 	public String delete(@RequestHeader int id) {
-		if(removerClientePorId(id))
+		if(removerInvestimento(id))
 			return "Remoção de investimento realizada com sucesso!";
 
-		return "Não foi encontrado um investimento realizado por este cliente!";
+		return "Erro ao remover investimento!";
+	}
+
+	//// Funções
+	private boolean adicionarInvestimento(Investimento investimento) {
+		if(investimento == null)
+			return false;
+
+		listaInvestimentos.add(investimento);
+		return true;
 	}
 
 	private Investimento buscarInvestimentoPorClienteId(int id) {
-		for (Investimento listaInvestimento : listaInvestimentos)
-			if (listaInvestimento.getCliente().getClienteId() == id)
-				return listaInvestimento;
+
+		for(Investimento i: listaInvestimentos)
+			if(i.getCliente().getId() == id)
+				return i;
 
 
 		return null;
 	}
 
-	private boolean alterarClientePorId(int id, Investimento novoInvestimento) {
-		Investimento antigoInvestimento = this.buscarInvestimentoPorClienteId(id);
-		if(antigoInvestimento != null && novoInvestimento != null) {
-			int posAntigoInvestimento = listaInvestimentos.indexOf(antigoInvestimento);
-			listaInvestimentos.set(posAntigoInvestimento, novoInvestimento);
-			return true;
-		}
+	private ArrayList<Investimento> buscarTodosInvestimentosPorClienteId(int id) {
+		ArrayList<Investimento> investimentos = new ArrayList<>();
 
-		return false;
+		for(Investimento i: listaInvestimentos)
+			if(i.getCliente().getId() == id)
+				investimentos.add(i);
+
+
+		return investimentos;
 	}
 
-	private boolean removerClientePorId(int id) {
-		Investimento investimento = this.buscarInvestimentoPorClienteId(id);
-		if(investimento != null) {
-			listaInvestimentos.remove(investimento);
-			return true;
-		}
+	private boolean removerInvestimento(int id) {
+		Investimento investimento = buscarInvestimentoPorClienteId(id);
 
-		return false;
+		if(investimento == null)
+			return false;
+
+		listaInvestimentos.remove(investimento);
+		return true;
 	}
 }

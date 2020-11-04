@@ -4,8 +4,8 @@ public class Corretora extends Entidade {
 
 	private double extrato;
 
-	public Corretora(int corretoraId, String nome) {
-		this.id = corretoraId;
+	public Corretora(int id, String nome) {
+		this.id = id;
 		this.nome = nome;
 		this.extrato = 0;
 	}
