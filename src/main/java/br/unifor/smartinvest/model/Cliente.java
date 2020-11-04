@@ -4,13 +4,14 @@ public class Cliente extends Entidade{
 
 	private double saldo;
 
-	public Cliente(int clienteId, String nome) {
-		this.id = clienteId;
+	// Para compartilhar com outro usuário, utilizar o id
+	public Cliente(int id, String nome) {
+		this.id = id;
 		this.nome = nome;
 		this.saldo = 0;
 	}
 
-	public int getClienteId() {
+	public int getId() {
 		return this.id;
 	}
 	public String getNome() {
