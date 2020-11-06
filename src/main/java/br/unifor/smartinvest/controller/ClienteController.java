@@ -62,7 +62,6 @@ public class ClienteController {
 			if(cliente.getId() == c.getId())
 				return false;
 
-
 		listaClientes.add(cliente);
 		return true;
 	}
@@ -72,30 +71,25 @@ public class ClienteController {
 			if(c.getId() == id)
 				return c;
 
-
 		return null;
 	}
 
 	private boolean modificarCliente(int id, Cliente novoCliente) {
-		 Cliente antigoCliente = buscarClientePorId(id);
+		Cliente antigoCliente = buscarClientePorId(id);
 
-		 if(antigoCliente != null && novoCliente != null) {
-		 	int posAntigoCliente = listaClientes.indexOf(antigoCliente);
-		 	listaClientes.set(posAntigoCliente, novoCliente);
-		 	return true;
-		 }
+		if(antigoCliente == null || novoCliente == null) return false;
 
-		 return false;
+		int posAntigoCliente = listaClientes.indexOf(antigoCliente);
+		listaClientes.set(posAntigoCliente, novoCliente);
+		return true;
 	}
 
 	private boolean removerCliente(int id) {
 		Cliente cliente = buscarClientePorId(id);
 
-		if(cliente != null) {
-			listaClientes.remove(cliente);
-			return true;
-		}
+		if(cliente == null) return false;
 
-		return false;
+		listaClientes.remove(cliente);
+		return true;
 	}
 }

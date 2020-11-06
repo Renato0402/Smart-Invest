@@ -10,19 +10,8 @@ public class Cliente extends Entidade{
 		this.nome = nome;
 		this.saldo = 0;
 	}
-
-	public int getId() {
-		return this.id;
-	}
-	public String getNome() {
-		return this.nome;
-	}
 	public double getSaldo() {
 		return saldo;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
 	}
 	public void setSaldo(double saldo) {
 		this.saldo = saldo;

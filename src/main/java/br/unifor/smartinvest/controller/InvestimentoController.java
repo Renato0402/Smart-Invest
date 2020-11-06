@@ -1,5 +1,6 @@
 package br.unifor.smartinvest.controller;
 
+import br.unifor.smartinvest.model.Historico;
 import br.unifor.smartinvest.model.Investimento;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +17,25 @@ public class InvestimentoController {
 
 	// Mostrar todos os investimentos
 	@GetMapping
-	public ArrayList<Investimento> get() {
-		return this.listaInvestimentos;
-	}
+	public ArrayList<Investimento> get(
+			@RequestParam(value = "cliente_id", required = false, defaultValue = "-1") int cliente_id,
+			@RequestParam(value = "corretora_id",required = false, defaultValue = "-1") int corretora_id,
+			@RequestParam(value = "investimento_id", required = false, defaultValue = "-1") int investimento_id
+	) {
+		ArrayList<Investimento> investimentos = this.listaInvestimentos;
 
-	// Mostrar investimentos ao buscar pelo seu id
-	// Ex.: localhost:8080/investimentos/1
-	@GetMapping("/{id}")
-	public ArrayList<Investimento> get(@PathVariable("id") int id) {
-		ArrayList<Investimento> investimentos = this.buscarTodosInvestimentosPorClienteId(id);
+		//! Refatorar para não repetir a mesma estrutura
+		if(cliente_id != -1)
+			// Filtrar pelo id do cliente
+			investimentos = filtrarInvestimentosPorCliente(investimentos, cliente_id);
+
+		if(corretora_id != -1)
+			// Filtrar pelo id de corretora
+			investimentos = filtrarInvestimentosPorCorretora(investimentos, corretora_id);
+
+		if(investimento_id != -1)
+			// Filtrar o investimento exato depois das outras filtragens
+			investimentos = filtrarInvestimentosPorId(investimentos, investimento_id);
 
 		return investimentos;
 	}
@@ -34,6 +45,19 @@ public class InvestimentoController {
 	public String post(@RequestBody Investimento investimento) {
 		if (adicionarInvestimento(investimento))
 			return "Investimento cadastrado com sucesso!";
+
+		return "Erro ao cadastrar investimento!";
+	}
+
+	// Realizar uma transação
+	@PostMapping("/{id}/historicos")
+	public String post(@PathVariable("id") int id, @RequestBody Historico historico) {
+		Investimento investimento = buscarInvestimentoPorId(id);
+
+		if (investimento != null) {
+			investimento.addHistorico(historico);
+			return "Novo histórico alterado!";
+		}
 
 		return "Erro ao cadastrar investimento!";
 	}
@@ -49,41 +73,61 @@ public class InvestimentoController {
 
 	//// Funções
 	private boolean adicionarInvestimento(Investimento investimento) {
-		if(investimento == null)
-			return false;
+		if(investimento == null) return false;
+
+		for(Investimento i: listaInvestimentos)
+			if(investimento.getId() == i.getId())
+				return false;
 
 		listaInvestimentos.add(investimento);
 		return true;
 	}
 
-	private Investimento buscarInvestimentoPorClienteId(int id) {
-
+	private Investimento buscarInvestimentoPorId(int id) {
 		for(Investimento i: listaInvestimentos)
-			if(i.getCliente().getId() == id)
+			if(i.getId() == id)
 				return i;
-
 
 		return null;
 	}
 
-	private ArrayList<Investimento> buscarTodosInvestimentosPorClienteId(int id) {
-		ArrayList<Investimento> investimentos = new ArrayList<>();
-
-		for(Investimento i: listaInvestimentos)
-			if(i.getCliente().getId() == id)
-				investimentos.add(i);
-
-
-		return investimentos;
-	}
-
 	private boolean removerInvestimento(int id) {
-		Investimento investimento = buscarInvestimentoPorClienteId(id);
+		Investimento investimento = buscarInvestimentoPorId(id);
 
 		if(investimento == null)
 			return false;
 
 		listaInvestimentos.remove(investimento);
 		return true;
+	}
+
+	//! Refatorar para não repetir a mesma estrutura
+	//! Refatorar para não repetir a mesma estrutura
+	//! Refatorar para não repetir a mesma estrutura
+	private ArrayList<Investimento> filtrarInvestimentosPorCliente(ArrayList<Investimento> investimentos, int cliente_id) {
+		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
+		for(Investimento i: investimentos)
+			if(i.getClienteId() == cliente_id)
+				investimentosFiltrados.add(i);
+
+		return investimentosFiltrados;
+	}
+
+	private ArrayList<Investimento> filtrarInvestimentosPorCorretora(ArrayList<Investimento> investimentos, int corretora_id) {
+		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
+		for(Investimento i: investimentos)
+			if(i.getCorretoraId() == corretora_id)
+				investimentosFiltrados.add(i);
+
+		return investimentosFiltrados;
+	}
+
+	private ArrayList<Investimento> filtrarInvestimentosPorId(ArrayList<Investimento> investimentos, int investimento_id) {
+		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
+		for(Investimento i: investimentos)
+			if(i.getId() == investimento_id)
+				investimentosFiltrados.add(i);
+
+		return investimentosFiltrados;
 	}
 }

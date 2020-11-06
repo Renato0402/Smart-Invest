@@ -2,31 +2,35 @@ package br.unifor.smartinvest.model;
 
 import java.util.ArrayList;
 
-public class Investimento {
+public class Investimento extends Entidade{
 
-	private Cliente cliente;
-	private Corretora corretora;
+	private int cliente_id;
+	private int corretora_id;
 	private ArrayList<Historico> historicos;
 
-	public Investimento(Cliente cliente, Corretora corretora) {
-		this.cliente = cliente;
-		this.corretora = corretora;
+	public Investimento(int id, String nome_empresa, int cliente_id, int corretora_id) {
+		this.id = id;
+		this.nome = nome_empresa;
+		this.cliente_id = cliente_id;
+		this.corretora_id = corretora_id;
 		this.historicos = new ArrayList<>();
 	}
 
-	public void setHistoricos(ArrayList<Historico> historicos)	{
-		this.historicos = historicos;
+	public void addHistorico(Historico historico) {
+		if(historico == null)
+			return;
+
+		this.historicos.add(historico);
 	}
 
 	public ArrayList<Historico> getHistoricos() {
 		return historicos;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
+	public int getClienteId() {
+		return cliente_id;
 	}
-
-	public Corretora getCorretora() {
-		return corretora;
+	public int getCorretoraId() {
+		return corretora_id;
 	}
 }
