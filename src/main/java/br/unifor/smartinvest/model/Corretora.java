@@ -13,17 +13,7 @@ public class Corretora extends Entidade {
 	public void setExtrato(double extrato) {
 		this.extrato = extrato;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getNome() {
-		return this.nome;
-	}
 	public double getExtrato() {
 		return this.extrato;
-	}
-	public int getId() {
-		return this.id;
 	}
 }
