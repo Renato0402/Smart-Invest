@@ -16,6 +16,8 @@ public class InvestimentoController {
 	}
 
 	// Mostrar todos os investimentos
+	//! Ao invés de aplicar no request query, utilizar argumento na própria url
+	//! Alterar strings para request query
 	@GetMapping
 	public ArrayList<Investimento> get(
 			@RequestParam(value = "cliente_id", required = false, defaultValue = "-1") int cliente_id,
@@ -37,6 +39,9 @@ public class InvestimentoController {
 			// Filtrar o investimento exato depois das outras filtragens
 			investimentos = filtrarInvestimentosPorId(investimentos, investimento_id);
 
+		// response entity ou anotação
+		// @ResponseEntity<Tipo>
+		// Retornar ResponseEntity.<método com ou sem body>.build()(se necessário)
 		return investimentos;
 	}
 
@@ -101,8 +106,6 @@ public class InvestimentoController {
 		return true;
 	}
 
-	//! Refatorar para não repetir a mesma estrutura
-	//! Refatorar para não repetir a mesma estrutura
 	//! Refatorar para não repetir a mesma estrutura
 	private ArrayList<Investimento> filtrarInvestimentosPorCliente(ArrayList<Investimento> investimentos, int cliente_id) {
 		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
