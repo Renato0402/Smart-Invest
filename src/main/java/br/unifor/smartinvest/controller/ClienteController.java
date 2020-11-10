@@ -1,6 +1,8 @@
 package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Cliente;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,44 +18,45 @@ public class ClienteController {
 
 	// Mostrar todos os clientes
 	@GetMapping
-	public ArrayList<Cliente> get() {
-		return this.listaClientes;
+	public ResponseEntity<ArrayList<Cliente>> get() {
+
+		return ResponseEntity.ok(this.listaClientes);
 	}
 
 	// Mostrar um cliente ao buscar pelo seu id
 	// Ex.: localhost:8080/clientes/1
 	@GetMapping("/{id}")
-	public Cliente get(@PathVariable("id") int id) {
+	public ResponseEntity<Cliente> get(@PathVariable("id") int id) {
 		Cliente cliente = this.buscarClientePorId(id);
 
-		return cliente;
+		return ResponseEntity.ok(cliente);
 	}
 
 	// Adicionar um cliente
 	@PostMapping
-	public String post(@RequestBody Cliente cliente) {
+	public ResponseEntity<String> post(@RequestBody Cliente cliente) {
 		if (adicionarCliente(cliente))
-			return "Cliente cadastrado com sucesso!";
+			return ResponseEntity.ok("Cliente cadastrado com sucesso!");
 
-		return "Erro ao cadastrar cliente!";
+		return ResponseEntity.badRequest().body("Erro ao cadastrar cliente!");
 	}
 
 	// Modificar um cliente ao buscar pelo seu id
-	@PutMapping
-	public String put(@RequestHeader int id, @RequestBody Cliente cliente) {
+	@PutMapping("{id}")
+	public ResponseEntity<String> put(@PathVariable int id, @RequestBody Cliente cliente) {
 		if(modificarCliente(id, cliente))
-			return "Modificação de cliente realizada com sucesso!";
+			return ResponseEntity.ok("Modificação de cliente realizada com sucesso!");
 
-		return "Erro ao modificar cliente!";
+		return ResponseEntity.badRequest().body("Erro ao modificar cliente!");
 	}
 
 	// Remover um cliente ao buscar pelo seu id
-	@DeleteMapping
-	public String delete(@RequestHeader int id) {
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> delete(@PathVariable int id) {
 		if(removerCliente(id))
-			return "Remoção de cliente realizada com sucesso!";
+			return ResponseEntity.ok("Remoção de cliente realizada com sucesso!");
 
-		return "Erro ao remover cliente!";
+		return ResponseEntity.badRequest().body("Erro ao remover cliente!");
 	}
 
 	//// Funções

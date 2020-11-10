@@ -1,6 +1,8 @@
 package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Corretora;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,44 +18,45 @@ public class CorretoraController {
 
 	// Mostrar todas as corretoras
 	@GetMapping
-	public ArrayList<Corretora> get() {
-		return this.listaCorretoras;
+	public ResponseEntity<ArrayList<Corretora>> get() {
+
+		return ResponseEntity.ok(this.listaCorretoras);
 	}
 
 	// Mostrar uma corretora ao buscar pelo seu id
 	// Ex.: localhost:8080/corretoras/1
 	@GetMapping("/{id}")
-	public Corretora get(@PathVariable("id") int id) {
+	public ResponseEntity<Corretora> get(@PathVariable("id") int id) {
 		Corretora corretora = this.buscarCorretoraPorId(id);
 
-		return corretora;
+		return ResponseEntity.ok(corretora);
 	}
 
 	// Adicionar uma corretora
 	@PostMapping
-	public String post(@RequestBody Corretora corretora) {
+	public ResponseEntity<String> post(@RequestBody Corretora corretora) {
 		if (adicionarCorretora(corretora))
-			return "Corretora cadastrada com sucesso!";
+			return ResponseEntity.ok("Corretora cadastrada com sucesso!");
 
-		return "Erro ao cadastrar corretora!";
+		return ResponseEntity.badRequest().body("Erro ao cadastrar corretora!");
 	}
 
 	// Modificar uma corretora ao buscar pelo seu id
-	@PutMapping
-	public String put(@RequestHeader int id, @RequestBody Corretora corretora) {
+	@PutMapping("{id}")
+	public ResponseEntity<String> put(@PathVariable int id, @RequestBody Corretora corretora) {
 		if(modificarCorretora(id, corretora))
-			return "Modificação de corretora realizada com sucesso!";
+			return ResponseEntity.ok("Modificação de corretora realizada com sucesso!");
 
-		return "Erro ao modificar corretora!";
+		return ResponseEntity.badRequest().body("Erro ao modificar corretora!");
 	}
 
 	// Remover uma corretora ao buscar pelo seu id
-	@DeleteMapping
-	public String delete(@RequestHeader int id) {
+	@DeleteMapping("{id}")
+	public ResponseEntity<String> delete(@PathVariable int id) {
 		if(removerCorretora(id))
-			return "Remoção de corretora realizada com sucesso!";
+			return ResponseEntity.ok("Remoção de corretora realizada com sucesso!");
 
-		return "Erro ao remover corretora!";
+		return ResponseEntity.badRequest().body("Erro ao remover corretora!");
 	}
 
 	//// Funções
