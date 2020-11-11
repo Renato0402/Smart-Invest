@@ -2,8 +2,6 @@ package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Historico;
 import br.unifor.smartinvest.model.Investimento;
-import ch.qos.logback.core.pattern.util.RegularEscapeUtil;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,37 +16,24 @@ public class InvestimentoController {
 		this.listaInvestimentos = new ArrayList<>();
 	}
 
-	// Mostrar todos os investimentos
-	//! Ao invés de aplicar no request query, utilizar argumento na própria url
-	//! Alterar strings para request query
+	// Filtrar investimento pelo id do cliente
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<ArrayList<Investimento>> getInvestimentosPorCliente(@PathVariable int id) {
 		ArrayList<Investimento> investimentos = this.listaInvestimentos;
 
-		//! Refatorar para não repetir a mesma estrutura
-			// Filtrar pelo id do cliente
 		investimentos = filtrarInvestimentosPorCliente(investimentos, id);
 
-
-		// response entity ou anotação
-		// @ResponseEntity<Tipo>
-		// Retornar ResponseEntity.<método com ou sem body>.build()(se necessário)
 		return ResponseEntity.ok(investimentos);
 	}
 
+	// Filtrar investimento pelo id do cliente e id de corretora
 	@GetMapping("clientes/{clienteId}/corretoras/{corretoraId}")
 	public ResponseEntity<ArrayList<Investimento>> getInvestimentosCorretoraCliente(@PathVariable int clienteId, @PathVariable int corretoraId) {
 		ArrayList<Investimento> investimentos = this.listaInvestimentos;
 
-		//! Refatorar para não repetir a mesma estrutura
-		// Filtrar pelo id do cliente
 		investimentos = filtrarInvestimentosPorCorretora(investimentos, corretoraId);
 		investimentos = filtrarInvestimentosPorCliente(investimentos, clienteId);
 
-
-		// response entity ou anotação
-		// @ResponseEntity<Tipo>
-		// Retornar ResponseEntity.<método com ou sem body>.build()(se necessário)
 		return ResponseEntity.ok(investimentos);
 	}
 
@@ -61,20 +46,19 @@ public class InvestimentoController {
 		return ResponseEntity.badRequest().body("Erro ao cadastrar investimento!");
 	}
 
-	// Realizar uma transação
+	// Simular a inserção de um histórico resultante de uma transação entre cliente e corretora em um investimento
 	@PostMapping("/{id}/historicos")
 	public ResponseEntity<String> post(@PathVariable("id") int id, @RequestBody Historico historico) {
 		Investimento investimento = buscarInvestimentoPorId(id);
 
-		if (investimento != null) {
-			investimento.addHistorico(historico);
-			return ResponseEntity.ok("Novo histórico alterado!");
-		}
+		if (investimento == null)
+			return ResponseEntity.badRequest().body("Erro ao cadastrar investimento!");
 
-		return ResponseEntity.badRequest().body("Erro ao cadastrar investimento!");
+		investimento.addHistorico(historico);
+		return ResponseEntity.ok("Novo histórico alterado!");
 	}
 
-	// Remover um investimento ao buscar pelo seu id
+	// Remover um investimento ao buscar pelo seu próprio id
 	@DeleteMapping("{id}")
 	public ResponseEntity<String> delete(@PathVariable int id) {
 		if(removerInvestimento(id))
@@ -113,7 +97,6 @@ public class InvestimentoController {
 		return true;
 	}
 
-	//! Refatorar para não repetir a mesma estrutura
 	private ArrayList<Investimento> filtrarInvestimentosPorCliente(ArrayList<Investimento> investimentos, int cliente_id) {
 		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
 		for(Investimento i: investimentos)
@@ -131,5 +114,4 @@ public class InvestimentoController {
 
 		return investimentosFiltrados;
 	}
-
 }

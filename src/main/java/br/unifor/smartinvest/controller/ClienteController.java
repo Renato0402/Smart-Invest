@@ -1,7 +1,6 @@
 package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Cliente;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +23,14 @@ public class ClienteController {
 	}
 
 	// Mostrar um cliente ao buscar pelo seu id
-	// Ex.: localhost:8080/clientes/1
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> get(@PathVariable("id") int id) {
 		Cliente cliente = this.buscarClientePorId(id);
 
-		return ResponseEntity.ok(cliente);
+		if(cliente != null)
+			return ResponseEntity.ok(cliente);
+
+		return ResponseEntity.badRequest().body(null);
 	}
 
 	// Adicionar um cliente
@@ -80,7 +81,8 @@ public class ClienteController {
 	private boolean modificarCliente(int id, Cliente novoCliente) {
 		Cliente antigoCliente = buscarClientePorId(id);
 
-		if(antigoCliente == null || novoCliente == null) return false;
+		if(antigoCliente == null || novoCliente == null)
+			return false;
 
 		int posAntigoCliente = listaClientes.indexOf(antigoCliente);
 		listaClientes.set(posAntigoCliente, novoCliente);
@@ -90,7 +92,8 @@ public class ClienteController {
 	private boolean removerCliente(int id) {
 		Cliente cliente = buscarClientePorId(id);
 
-		if(cliente == null) return false;
+		if(cliente == null)
+			return false;
 
 		listaClientes.remove(cliente);
 		return true;

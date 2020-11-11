@@ -1,7 +1,6 @@
 package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Corretora;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +23,14 @@ public class CorretoraController {
 	}
 
 	// Mostrar uma corretora ao buscar pelo seu id
-	// Ex.: localhost:8080/corretoras/1
 	@GetMapping("/{id}")
 	public ResponseEntity<Corretora> get(@PathVariable("id") int id) {
 		Corretora corretora = this.buscarCorretoraPorId(id);
 
-		return ResponseEntity.ok(corretora);
+		if(corretora != null)
+			return ResponseEntity.ok(corretora);
+
+		return ResponseEntity.badRequest().body(null);
 	}
 
 	// Adicionar uma corretora
@@ -75,30 +76,27 @@ public class CorretoraController {
 			if(c.getId() == id)
 				return c;
 
-
 		return null;
 	}
 
 	private boolean modificarCorretora(int id, Corretora novoCorretora) {
 		Corretora antigaCorretora = buscarCorretoraPorId(id);
 
-		if(antigaCorretora != null && novoCorretora != null) {
-			int posAntigaCorretora = listaCorretoras.indexOf(antigaCorretora);
-			listaCorretoras.set(posAntigaCorretora, novoCorretora);
-			return true;
-		}
+		if(antigaCorretora == null || novoCorretora == null)
+			return false;
 
-		return false;
+		int posAntigaCorretora = listaCorretoras.indexOf(antigaCorretora);
+		listaCorretoras.set(posAntigaCorretora, novoCorretora);
+		return true;
 	}
 
 	private boolean removerCorretora(int id) {
 		Corretora corretora = buscarCorretoraPorId(id);
 
-		if(corretora != null) {
-			listaCorretoras.remove(corretora);
-			return true;
-		}
+		if(corretora == null)
+			return false;
 
-		return false;
+		listaCorretoras.remove(corretora);
+		return true;
 	}
 }
