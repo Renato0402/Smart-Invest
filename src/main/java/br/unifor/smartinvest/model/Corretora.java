@@ -1,19 +1,40 @@
 package br.unifor.smartinvest.model;
 
-public class Corretora extends Entidade {
+import javax.persistence.*;
 
+@Entity
+@Table(name="CORRETORAS")
+public class Corretora {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	private String nome;
 	private double extrato;
 
-	public Corretora(int id, String nome) {
-		this.id = id;
-		this.nome = nome;
+	public Corretora() {
 		this.extrato = 0;
 	}
 
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public double getExtrato() {
+		return extrato;
+	}
 	public void setExtrato(double extrato) {
 		this.extrato = extrato;
-	}
-	public double getExtrato() {
-		return this.extrato;
 	}
 }

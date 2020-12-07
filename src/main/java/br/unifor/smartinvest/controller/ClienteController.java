@@ -1,101 +1,36 @@
 package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Cliente;
+import br.unifor.smartinvest.service.ClienteService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-	private ArrayList<Cliente> listaClientes;
+	private final ClienteService clienteService;
 
-	public ClienteController() {
-		this.listaClientes = new ArrayList<>();
+	public ClienteController(ClienteService clienteService) {
+		this.clienteService= clienteService;
 	}
 
-	// Mostrar todos os clientes
-	@GetMapping
-	public ResponseEntity<ArrayList<Cliente>> get() {
-
-		return ResponseEntity.ok(this.listaClientes);
+	@GetMapping()
+	public ResponseEntity getAll() {
+		return clienteService.getAll();
 	}
 
-	// Mostrar um cliente ao buscar pelo seu id
 	@GetMapping("/{id}")
-	public ResponseEntity<Cliente> get(@PathVariable("id") int id) {
-		Cliente cliente = this.buscarClientePorId(id);
-
-		if(cliente != null)
-			return ResponseEntity.ok(cliente);
-
-		return ResponseEntity.badRequest().body(null);
+	public ResponseEntity getById(@PathVariable("id") int id) {
+		return clienteService.getById(id);
 	}
 
-	// Adicionar um cliente
 	@PostMapping
-	public ResponseEntity<String> post(@RequestBody Cliente cliente) {
-		if (adicionarCliente(cliente))
-			return ResponseEntity.ok("Cliente cadastrado com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao cadastrar cliente!");
+	public ResponseEntity addClient(@RequestBody Cliente cliente) {
+		return clienteService.addClient(cliente);
 	}
 
-	// Modificar um cliente ao buscar pelo seu id
-	@PutMapping("{id}")
-	public ResponseEntity<String> put(@PathVariable int id, @RequestBody Cliente cliente) {
-		if(modificarCliente(id, cliente))
-			return ResponseEntity.ok("Modificação de cliente realizada com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao modificar cliente!");
-	}
-
-	// Remover um cliente ao buscar pelo seu id
-	@DeleteMapping("{id}")
-	public ResponseEntity<String> delete(@PathVariable int id) {
-		if(removerCliente(id))
-			return ResponseEntity.ok("Remoção de cliente realizada com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao remover cliente!");
-	}
-
-	//// Funções
-	private boolean adicionarCliente(Cliente cliente) {
-		for(Cliente c: listaClientes)
-			if(cliente.getId() == c.getId())
-				return false;
-
-		listaClientes.add(cliente);
-		return true;
-	}
-
-	private Cliente buscarClientePorId(int id) {
-		for(Cliente c: listaClientes)
-			if(c.getId() == id)
-				return c;
-
-		return null;
-	}
-
-	private boolean modificarCliente(int id, Cliente novoCliente) {
-		Cliente antigoCliente = buscarClientePorId(id);
-
-		if(antigoCliente == null || novoCliente == null)
-			return false;
-
-		int posAntigoCliente = listaClientes.indexOf(antigoCliente);
-		listaClientes.set(posAntigoCliente, novoCliente);
-		return true;
-	}
-
-	private boolean removerCliente(int id) {
-		Cliente cliente = buscarClientePorId(id);
-
-		if(cliente == null)
-			return false;
-
-		listaClientes.remove(cliente);
-		return true;
+	@PutMapping("/{id}")
+	public ResponseEntity updateClient(@PathVariable("id") int id, @RequestBody Cliente cliente) {
+		return clienteService.updateClient(id, cliente);
 	}
 }
