@@ -1,11 +1,9 @@
 package br.unifor.smartinvest.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "INVESTIMENTOS")
+@Table(name = "investimentos")
 public class Investimento{
 
 	@Id
@@ -13,21 +11,23 @@ public class Investimento{
 	private int id;
 
 	private String nome;
-	private int clienteId;
-	private int corretoraId;
 
-	@OneToMany(mappedBy = "valorInvestido")
-	private List<Historico> historicos;
+	//! Se alterar o nome da variável para outro nome além de 'cliente_id', mesmo que seja um objeto do tipo 'Cliente', dá um erro sobre algum atributo não nulo se transformando em nulo
+	@ManyToOne()
+	@JoinColumn(name = "cliente_id")
+	public Cliente cliente_id;
+
+	@ManyToOne()
+	@JoinColumn(name = "corretora_id")
+	public Corretora corretora_id;
+
+//	@OneToMany(mappedBy = "investimento_id")
+//	private List<Historico> historicos;
 
 	public Investimento() {
-		this.historicos = new ArrayList<>();
+		/*this.historicos = new ArrayList<>();*/
 	}
 
-	public void addHistorico(Historico historico) {
-		if(historico == null) return;
-
-		this.historicos.add(historico);
-	}
 
 	public int getId() {
 		return id;
@@ -43,24 +43,10 @@ public class Investimento{
 		this.nome = nome;
 	}
 
-	public int getClienteId() {
-		return clienteId;
-	}
-	public void setClienteId(int clienteId) {
-		this.clienteId = clienteId;
-	}
-
-	public int getCorretoraId() {
-		return corretoraId;
-	}
-	public void setCorretoraId(int corretoraId) {
-		this.corretoraId = corretoraId;
-	}
-
-	public List<Historico> getHistoricos() {
-		return historicos;
-	}
-	public void setHistoricos(List<Historico> historicos) {
-		this.historicos = historicos;
-	}
+	//	public List<Historico> getHistoricos() {
+//		return historicos;
+//	}
+//	public void setHistoricos(List<Historico> historicos) {
+//		this.historicos = historicos;
+//	}
 }

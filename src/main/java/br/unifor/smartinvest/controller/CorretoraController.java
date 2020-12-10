@@ -1,6 +1,8 @@
 package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Corretora;
+import br.unifor.smartinvest.model.Corretora;
+import br.unifor.smartinvest.service.CorretoraService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,94 +11,29 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/corretoras")
 public class CorretoraController {
-	private ArrayList<Corretora> listaCorretoras;
+	private final CorretoraService corretoraService;
 
-	public CorretoraController() {
-		this.listaCorretoras = new ArrayList<>();
+	public CorretoraController(CorretoraService corretoraService) {
+		this.corretoraService= corretoraService;
 	}
 
-	// Mostrar todas as corretoras
-	@GetMapping
-	public ResponseEntity<ArrayList<Corretora>> get() {
-
-		return ResponseEntity.ok(this.listaCorretoras);
+	@GetMapping()
+	public ResponseEntity getAll() {
+		return corretoraService.getAll();
 	}
 
-	// Mostrar uma corretora ao buscar pelo seu id
 	@GetMapping("/{id}")
-	public ResponseEntity<Corretora> get(@PathVariable("id") int id) {
-		Corretora corretora = this.buscarCorretoraPorId(id);
-
-		if(corretora != null)
-			return ResponseEntity.ok(corretora);
-
-		return ResponseEntity.badRequest().body(null);
+	public ResponseEntity getById(@PathVariable("id") int id) {
+		return corretoraService.getById(id);
 	}
 
-	// Adicionar uma corretora
 	@PostMapping
-	public ResponseEntity<String> post(@RequestBody Corretora corretora) {
-		if (adicionarCorretora(corretora))
-			return ResponseEntity.ok("Corretora cadastrada com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao cadastrar corretora!");
+	public ResponseEntity addCorretora(@RequestBody Corretora corretora) {
+		return corretoraService.addCorretora(corretora);
 	}
 
-	// Modificar uma corretora ao buscar pelo seu id
-	@PutMapping("{id}")
-	public ResponseEntity<String> put(@PathVariable int id, @RequestBody Corretora corretora) {
-		if(modificarCorretora(id, corretora))
-			return ResponseEntity.ok("Modificação de corretora realizada com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao modificar corretora!");
-	}
-
-	// Remover uma corretora ao buscar pelo seu id
-	@DeleteMapping("{id}")
-	public ResponseEntity<String> delete(@PathVariable int id) {
-		if(removerCorretora(id))
-			return ResponseEntity.ok("Remoção de corretora realizada com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao remover corretora!");
-	}
-
-	//// Funções
-	private boolean adicionarCorretora(Corretora corretora) {
-		for(Corretora c: listaCorretoras)
-			if(corretora.getId() == c.getId())
-				return false;
-
-
-		listaCorretoras.add(corretora);
-		return true;
-	}
-
-	private Corretora buscarCorretoraPorId(int id) {
-		for(Corretora c: listaCorretoras)
-			if(c.getId() == id)
-				return c;
-
-		return null;
-	}
-
-	private boolean modificarCorretora(int id, Corretora novoCorretora) {
-		Corretora antigaCorretora = buscarCorretoraPorId(id);
-
-		if(antigaCorretora == null || novoCorretora == null)
-			return false;
-
-		int posAntigaCorretora = listaCorretoras.indexOf(antigaCorretora);
-		listaCorretoras.set(posAntigaCorretora, novoCorretora);
-		return true;
-	}
-
-	private boolean removerCorretora(int id) {
-		Corretora corretora = buscarCorretoraPorId(id);
-
-		if(corretora == null)
-			return false;
-
-		listaCorretoras.remove(corretora);
-		return true;
+	@PutMapping("/{id}")
+	public ResponseEntity updateCorretora(@PathVariable("id") int id, @RequestBody Corretora corretora) {
+		return corretoraService.updateCorretora(id, corretora);
 	}
 }

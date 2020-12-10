@@ -1,10 +1,9 @@
 package br.unifor.smartinvest.repository;
 
-import br.unifor.smartinvest.model.Cliente;
+import br.unifor.smartinvest.model.Investimento;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-
+public interface InvestimentoRepository extends JpaRepository<Investimento, Integer> {
 }

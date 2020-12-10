@@ -3,7 +3,7 @@ package br.unifor.smartinvest.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="CLIENTES")
+@Table(name="clientes")
 public class Cliente{
 
 	@Id
@@ -15,6 +15,7 @@ public class Cliente{
 
 	// Para compartilhar com outro usuário, utilizar o id
 	public Cliente() {	}
+	public Cliente(int id) {	this.id = id;}
 
 	public int getId() {
 		return id;

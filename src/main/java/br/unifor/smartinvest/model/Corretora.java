@@ -3,7 +3,7 @@ package br.unifor.smartinvest.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="CORRETORAS")
+@Table(name="corretoras")
 public class Corretora {
 
 	@Id
@@ -14,6 +14,10 @@ public class Corretora {
 	private double extrato;
 
 	public Corretora() {
+		this.extrato = 0;
+	}
+	public Corretora(int id) {
+		this.id = id;
 		this.extrato = 0;
 	}
 

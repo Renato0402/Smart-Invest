@@ -46,11 +46,8 @@ public class ClienteService {
 
 	public ResponseEntity addClient(Cliente cliente) {
 		try {
-
-			Optional<Cliente> clienteOpt = clienteRepository.findById(cliente.getId());
-			if (clienteOpt.isEmpty()) clienteRepository.save(cliente);
-
-			return ResponseEntity.notFound().build();
+			clienteRepository.save(cliente);
+			return ResponseEntity.ok().build();
 
 		} catch (Exception e) {
 			System.err.println("Erro: " + e);

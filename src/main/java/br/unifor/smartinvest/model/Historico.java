@@ -4,15 +4,22 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="HISTORICOS")
+@Table(name="historicos")
 public class Historico {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+
+	@Column(name="valor_investido")
 	private double valorInvestido;
+
+	@Column(name="data_realizada")
 	private Date dataRealizada;
+
+	@ManyToOne(targetEntity = Investimento.class)
+	private int investimento_id;
 
 	public Historico() {
 		this.valorInvestido = 0;
@@ -38,5 +45,13 @@ public class Historico {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getInvestimento_id() {
+		return investimento_id;
+	}
+
+	public void setInvestimento_id(int investimento_id) {
+		this.investimento_id = investimento_id;
 	}
 }

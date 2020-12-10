@@ -1,59 +1,67 @@
-DROP TABLE IF EXISTS CLIENTES;
+drop table if exists clientes;
 
-CREATE TABLE IF NOT EXISTS CLIENTES(
-    id INT AUTO_INCREMENT NOT NULL,
-    nome VARCHAR(30) NOT NULL,
-    saldo DOUBLE,
+create table if not exists clientes(
+    id int auto_increment not null,
+    nome varchar(30) not null,
+    saldo double not null,
 
-    PRIMARY KEY(id)
+    primary key(id)
 );
 
-CREATE TABLE IF NOT EXISTS CORRETORAS(
-    id INT AUTO_INCREMENT NOT NULL,
-    nome VARCHAR(30) NOT NULL,
-    extrato DOUBLE,
+create table if not exists corretoras(
+    id int auto_increment not null,
+    nome varchar(30) not null,
+    extrato double not null,
 
-    PRIMARY KEY(id)
+    primary key(id)
 );
 
-CREATE TABLE IF NOT EXISTS HISTORICOS(
-    id INT AUTO_INCREMENT NOT NULL,
-    valorInvestido DOUBLE NOT NULL,
-	dataRealizada DATE NOT NULL,
+create table if not exists investimentos(
+    id int auto_increment not null,
+	nome varchar(50) not null,
+	cliente_id int not null,
+	corretora_id int not null,
 
-	PRIMARY KEY(id)
+	primary key(id),
+	foreign key(cliente_id) references clientes(id),
+	foreign key(corretora_id) references corretoras(id)
 );
 
-CREATE TABLE IF NOT EXISTS INVESTIMENTOS(
-    id INT AUTO_INCREMENT NOT NULL,
-	nome VARCHAR(30) NOT NULL,
-	clienteId INT NOT NULL,
-	corretoraId INT NOT NULL,
+create table if not exists historicos(
+    id int auto_increment not null,
+    valor_investido double not null,
+	data_realizada date not null,
+	investimento_id int not null,
 
-	PRIMARY KEY(id),
-	FOREIGN KEY(clienteId) REFERENCES CLIENTES(id),
-	FOREIGN KEY(corretoraId) REFERENCES CORRETORAS(id)
+	primary key(id),
+	foreign key(investimento_id) references investimentos(id)
 );
 
-INSERT INTO CLIENTES(nome) VALUES
-('Paulo'),
-('Renato'),
-('Victor'),
-('Igor');
+insert into clientes(nome, saldo) values
+('Paulo', 9999.99),
+('Renato', 9999.99),
+('Victor', 9999.99),
+('Igor', 9999.99);
 
-INSERT INTO CORRETORAS(nome) VALUES
-('CORRETORA A'),
-('CORRETORA B'),
-('CORRETORA C');
+insert into corretoras(nome, extrato) values
+('CORRETORA A', 100.0),
+('CORRETORA B', 100.0),
+('CORRETORA C', 100.0);
 
-INSERT INTO HISTORICOS(valorInvestido, dataRealizada) VALUES
-(2000.0, TO_DATE('11-02-2020', 'd-m-Y')),
-(1520.0, TO_DATE('21-06-2020', 'd-m-Y')),
-(20.6, TO_DATE('01-03-2020', 'd-m-Y')),
-(100.0, TO_DATE('31-06-2020', 'd-m-Y'));
-
-INSERT INTO INVESTIMENTOS(nome, clienteId, corretoraId) VALUES
+insert into investimentos(nome, cliente_id, corretora_id) values
 ('INVESTIMENTO A', 1, 1),
 ('INVESTIMENTO B', 2, 1),
-('INVESTIMENTO C', 1, 2),
-('INVESTIMENTO D', 2, 2);
+('INVESTIMENTO C', 3, 2),
+('INVESTIMENTO D', 2, 3),
+('INVESTIMENTO EEEEE', 2, 2),
+('INVESTIMENTOFFFF', 4, 2),
+('INVESTIMENTO DSADSA', 2, 3),
+('INVESTIMENTO DSFSDF', 3, 3),
+('INVESTIMENTO DFGDFJGDG', 3, 1),
+('INVESTIMENTO DFJSDFOJSDFO', 3, 2);
+
+insert into historicos(investimento_id, valor_investido, data_realizada) values
+(1, 2000.0, to_date('11-02-2020', 'd-m-Y')),
+(1, 1520.0, to_date('21-06-2020', 'd-m-Y')),
+(1, 20.6, to_date('01-03-2020', 'd-m-Y')),
+(1, 100.0, to_date('31-06-2020', 'd-m-Y'));

@@ -9,7 +9,3 @@ public class SmartInvestApplication {
 		SpringApplication.run(SmartInvestApplication.class, args);
 	}
 }
-// to tentando responder KK
-// mas eu posso passar o projeto pra alguem compartilhar
-// ai alivia aqui
-// calma ai q eu tou configurando!
