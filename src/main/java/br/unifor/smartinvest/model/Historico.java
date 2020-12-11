@@ -2,6 +2,7 @@ package br.unifor.smartinvest.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="historicos")
@@ -9,8 +10,7 @@ public class Historico {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-
+	private Integer id;
 
 	@Column(name="valor_investido")
 	private double valorInvestido;
@@ -18,8 +18,8 @@ public class Historico {
 	@Column(name="data_realizada")
 	private Date dataRealizada;
 
-	@ManyToOne(targetEntity = Investimento.class)
-	private int investimento_id;
+	@ManyToOne()
+	private Investimento investimento;
 
 	public Historico() {
 		this.valorInvestido = 0;
@@ -40,18 +40,18 @@ public class Historico {
 		this.dataRealizada = dataRealizada;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public int getInvestimento_id() {
-		return investimento_id;
+	public Investimento getInvestimento() {
+		return investimento;
 	}
 
-	public void setInvestimento_id(int investimento_id) {
-		this.investimento_id = investimento_id;
+	public void setInvestimento(Investimento investimento) {
+		this.investimento = investimento;
 	}
 }

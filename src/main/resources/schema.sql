@@ -4,6 +4,7 @@ create table if not exists clientes(
     id int auto_increment not null,
     nome varchar(30) not null,
     saldo double not null,
+    compartilhado bool not null default false,
 
     primary key(id)
 );
@@ -37,11 +38,11 @@ create table if not exists historicos(
 	foreign key(investimento_id) references investimentos(id)
 );
 
-insert into clientes(nome, saldo) values
-('Paulo', 9999.99),
-('Renato', 9999.99),
-('Victor', 9999.99),
-('Igor', 9999.99);
+insert into clientes(nome, saldo, compartilhado) values
+('Paulo', 1250.50, false),
+('Renato', 1250.50, true),
+('Victor', 1250.50, false),
+('Igor', 1250.50, true);
 
 insert into corretoras(nome, extrato) values
 ('CORRETORA A', 100.0),

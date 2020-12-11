@@ -20,7 +20,7 @@ public class ClienteController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity getById(@PathVariable("id") int id) {
+	public ResponseEntity getById(@PathVariable("id") Integer id) {
 		return clienteService.getById(id);
 	}
 
@@ -30,7 +30,7 @@ public class ClienteController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity updateClient(@PathVariable("id") int id, @RequestBody Cliente cliente) {
+	public ResponseEntity updateClient(@PathVariable("id") Integer id, @RequestBody Cliente cliente) {
 		return clienteService.updateClient(id, cliente);
 	}
 }

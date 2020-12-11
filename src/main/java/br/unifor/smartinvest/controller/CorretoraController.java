@@ -23,7 +23,7 @@ public class CorretoraController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity getById(@PathVariable("id") int id) {
+	public ResponseEntity getById(@PathVariable("id") Integer id) {
 		return corretoraService.getById(id);
 	}
 
@@ -33,7 +33,7 @@ public class CorretoraController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity updateCorretora(@PathVariable("id") int id, @RequestBody Corretora corretora) {
+	public ResponseEntity updateCorretora(@PathVariable("id") Integer id, @RequestBody Corretora corretora) {
 		return corretoraService.updateCorretora(id, corretora);
 	}
 }

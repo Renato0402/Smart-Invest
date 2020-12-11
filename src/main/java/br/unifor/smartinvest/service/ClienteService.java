@@ -15,7 +15,7 @@ public class ClienteService {
 		this.clienteRepository = clienteRepository;
 	}
 
-	public ResponseEntity updateClient(int id, Cliente cliente) {
+	public ResponseEntity updateClient(Integer id, Cliente cliente) {
 		Optional<Cliente> clienteExistente = clienteRepository.findById(id);
 
 		if (clienteExistente.isPresent()) {
@@ -35,7 +35,7 @@ public class ClienteService {
 		return ResponseEntity.ok(clienteRepository.findAll());
 	}
 
-	public ResponseEntity getById(int id) {
+	public ResponseEntity getById(Integer id) {
 		Optional<Cliente> clienteOpt = clienteRepository.findById(id);
 		if(clienteOpt.isPresent())
 			return ResponseEntity.ok(clienteOpt.get());

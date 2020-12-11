@@ -3,8 +3,11 @@ package br.unifor.smartinvest.controller;
 import br.unifor.smartinvest.model.Historico;
 import br.unifor.smartinvest.model.Investimento;
 import br.unifor.smartinvest.service.InvestimentoService;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/investimentos")
@@ -15,14 +18,20 @@ public class InvestimentoController {
 		this.investimentoService = investimentoService;
 	}
 
-	@GetMapping()
-	public ResponseEntity getAll() {
-		return investimentoService.getAll();
+	@GetMapping("/{id}")
+	public ResponseEntity getById(@PathVariable("id") Integer id) {
+		return investimentoService.getById(id);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity getById(@PathVariable("id") int id) {
-		return investimentoService.getById(id);
+	@GetMapping("/clientes/{cliente_id}/{compartilhado}")
+	public ResponseEntity getByClienteId(@PathVariable("cliente_id") Integer cliente_id, @PathVariable("compartilhado") boolean compartilhado) {
+
+		return investimentoService.getInvestimentosByClienteId(cliente_id, compartilhado);
+	}
+
+	@GetMapping("/clientes/{cliente_id}/corretoras/{corretora_id}")
+	public ResponseEntity getAllInvestimentosFromClienteInCorretora(@PathVariable("cliente_id") Integer cliente_id, @PathVariable("corretora_id") Integer corretora_id) {
+		return investimentoService.getAllInvestimentosFromClienteInCorretora(cliente_id, corretora_id);
 	}
 
 	@PostMapping
@@ -31,7 +40,7 @@ public class InvestimentoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity updateInvestiment(@PathVariable("id") int id, @RequestBody Investimento investimento) {
+	public ResponseEntity updateInvestiment(@PathVariable("id") Integer id, @RequestBody Investimento investimento) {
 		return investimentoService.updateInvestimento(id, investimento);
 	}
 
@@ -45,7 +54,7 @@ public class InvestimentoController {
 
 	// Adicionar histórico em investimento
 	@PostMapping("/{id}/historicos")
-	public ResponseEntity addHistoricoInInvestimento(@PathVariable("id") int id, @RequestBody Historico historico) {
+	public ResponseEntity addHistoricoInInvestimento(@PathVariable("id") Integer id, @RequestBody Historico historico) {
 		return investimentoService.addHistoricoInInvestimento(id, historico);
 	}
 }

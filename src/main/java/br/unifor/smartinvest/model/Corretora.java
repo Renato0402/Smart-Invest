@@ -8,7 +8,7 @@ public class Corretora {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	private String nome;
 	private double extrato;
@@ -16,15 +16,15 @@ public class Corretora {
 	public Corretora() {
 		this.extrato = 0;
 	}
-	public Corretora(int id) {
+	public Corretora(Integer id) {
 		this.id = id;
 		this.extrato = 0;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

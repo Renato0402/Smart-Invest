@@ -8,19 +8,27 @@ public class Cliente{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	private String nome;
 	private double saldo;
 
-	// Para compartilhar com outro usuário, utilizar o id
-	public Cliente() {	}
-	public Cliente(int id) {	this.id = id;}
+	private boolean compartilhado;
 
-	public int getId() {
+	public Cliente() {	}
+	public Cliente(Integer id) {	this.id = id;}
+
+	public boolean isCompartilhado() {
+		return compartilhado;
+	}
+	public void setCompartilhado(boolean compartilhado) {
+		this.compartilhado = compartilhado;
+	}
+
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
