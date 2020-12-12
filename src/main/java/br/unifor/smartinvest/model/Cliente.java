@@ -15,8 +15,14 @@ public class Cliente{
 
 	private boolean compartilhado;
 
-	public Cliente() {	}
-	public Cliente(Integer id) {	this.id = id;}
+	public Cliente() {
+
+	}
+	// Construtor alternativo necessário para evitar o erro de falta de serializer
+	public Cliente(Integer id) {
+		this.id = id;
+	}
+
 
 	public boolean isCompartilhado() {
 		return compartilhado;
@@ -25,6 +31,7 @@ public class Cliente{
 		this.compartilhado = compartilhado;
 	}
 
+
 	public Integer getId() {
 		return id;
 	}
@@ -32,12 +39,14 @@ public class Cliente{
 		this.id = id;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 	public double getSaldo() {
 		return saldo;

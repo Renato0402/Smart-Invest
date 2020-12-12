@@ -2,7 +2,6 @@ package br.unifor.smartinvest.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name="historicos")
@@ -18,7 +17,7 @@ public class Historico {
 	@Column(name="data_realizada")
 	private Date dataRealizada;
 
-	@ManyToOne()
+	@ManyToOne
 	private Investimento investimento;
 
 	public Historico() {
@@ -33,12 +32,14 @@ public class Historico {
 		this.valorInvestido = valorInvestido;
 	}
 
+
 	public Date getDataRealizada() {
 		return dataRealizada;
 	}
 	public void setDataRealizada(Date dataRealizada) {
 		this.dataRealizada = dataRealizada;
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -47,10 +48,10 @@ public class Historico {
 		this.id = id;
 	}
 
+
 	public Investimento getInvestimento() {
 		return investimento;
 	}
-
 	public void setInvestimento(Investimento investimento) {
 		this.investimento = investimento;
 	}

@@ -16,10 +16,11 @@ public class Corretora {
 	public Corretora() {
 		this.extrato = 0;
 	}
+	// Construtor alternativo necessário para evitar o erro de falta de serializer
 	public Corretora(Integer id) {
 		this.id = id;
-		this.extrato = 0;
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -28,12 +29,14 @@ public class Corretora {
 		this.id = id;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
 
 	public double getExtrato() {
 		return extrato;

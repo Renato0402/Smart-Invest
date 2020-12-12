@@ -15,6 +15,8 @@ public class ClienteService {
 		this.clienteRepository = clienteRepository;
 	}
 
+
+	// Atualizar cliente por id no clienteRepository
 	public ResponseEntity updateClient(Integer id, Cliente cliente) {
 		Optional<Cliente> clienteExistente = clienteRepository.findById(id);
 
@@ -31,12 +33,17 @@ public class ClienteService {
 		return ResponseEntity.notFound().build();
 	}
 
+
+	// Obter todos os cliente no clienteRepository
 	public ResponseEntity getAll() {
 		return ResponseEntity.ok(clienteRepository.findAll());
 	}
 
+
+	// Obter cliente por id no clienteRepository
 	public ResponseEntity getById(Integer id) {
 		Optional<Cliente> clienteOpt = clienteRepository.findById(id);
+
 		if(clienteOpt.isPresent())
 			return ResponseEntity.ok(clienteOpt.get());
 
@@ -44,8 +51,10 @@ public class ClienteService {
 	}
 
 
+	// Adicionar um cliente no clienteRepository
 	public ResponseEntity addClient(Cliente cliente) {
 		try {
+
 			clienteRepository.save(cliente);
 			return ResponseEntity.ok().build();
 

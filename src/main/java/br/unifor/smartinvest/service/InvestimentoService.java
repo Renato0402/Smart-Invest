@@ -1,6 +1,5 @@
 package br.unifor.smartinvest.service;
 
-import br.unifor.smartinvest.model.Cliente;
 import br.unifor.smartinvest.model.Corretora;
 import br.unifor.smartinvest.model.Historico;
 import br.unifor.smartinvest.model.Investimento;
@@ -25,6 +24,8 @@ public class InvestimentoService{
 		this.historicoRepository = historicoRepository;
 	}
 
+
+	// Atualizar investimento no investimentoRepository
 	public ResponseEntity updateInvestimento(Integer id, Investimento investimento) {
 		Optional<Investimento> investimentoExistente = investimentoRepository.findById(id);
 
@@ -42,25 +43,24 @@ public class InvestimentoService{
 		return ResponseEntity.notFound().build();
 	}
 
+
+	// Obter investimento por id no investimentoRepository
 	public ResponseEntity getById(Integer id) {
 		Optional<Investimento> investimentoOpt = investimentoRepository.findById(id);
-		if(investimentoOpt.isPresent())
-			return ResponseEntity.ok(investimentoOpt.get());
+
+		if(investimentoOpt.isPresent())	return ResponseEntity.ok(investimentoOpt.get());
 
 		return ResponseEntity.notFound().build();
 	}
 
+
+	// Obter investimentos realizados por cliente no investimentoRepository
 	public ResponseEntity getInvestimentosByClienteId(Integer cliente_id, boolean compartilhado) {
 		try {
 			List<Object> investimentos;
 
-			if(compartilhado) {
-				investimentos = investimentoRepository.getInvestimentoByClienteIdShared(cliente_id);
-			} else {
-				investimentos = investimentoRepository.getInvestimentoByClienteId(cliente_id);
-			}
-
-			System.out.println(investimentos);
+			if(compartilhado) investimentos = investimentoRepository.getInvestimentoByClienteIdShared(cliente_id);
+			else investimentos = investimentoRepository.getInvestimentoByClienteId(cliente_id);
 
 			return ResponseEntity.ok(investimentos);
 		} catch (Exception e) {
@@ -70,6 +70,8 @@ public class InvestimentoService{
 		return ResponseEntity.badRequest().build();
 	}
 
+
+	// Obter todos investimentos realizados por um cliente em uma determinada corretora no investimentoRepository
 	public ResponseEntity getAllInvestimentosFromClienteInCorretora(Integer cliente_id, Integer corretora_id) {
 		try {
 
@@ -83,6 +85,8 @@ public class InvestimentoService{
 		return ResponseEntity.badRequest().build();
 	}
 
+
+	// Adicionar investimento no investimentoRepository
 	public ResponseEntity addInvestimento(Investimento investimento) {
 		try {
 
@@ -96,17 +100,23 @@ public class InvestimentoService{
 		return ResponseEntity.badRequest().build();
 	}
 
+
+	// Adicionar historico em investimento por id no investimentoRepository
 	public ResponseEntity addHistoricoInInvestimento(Integer id, Historico historico) {
-		// Obter cliente pelo investimento e depois comparar com historico
 		Optional<Investimento> investimentoOpt = this.investimentoRepository.findById(id);
+
 		if(investimentoOpt.isPresent()) {
 			Investimento investimento = investimentoOpt.get();
 			Corretora corretora = investimento.getCorretora();
 
-			if(corretora.getExtrato() >= historico.getValorInvestido()) {
+			double extratoCorretora = corretora.getExtrato();
+			double valorNovoHistorico = historico.getValorInvestido();
+			if(
+					extratoCorretora >= valorNovoHistorico &&
+					extratoCorretora - valorNovoHistorico >= 0
+			) {
 				historico.setInvestimento(investimento);
-
-				corretora.setExtrato(corretora.getExtrato() - historico.getValorInvestido());
+				corretora.setExtrato(extratoCorretora - valorNovoHistorico);
 
 				investimentoRepository.save(investimento);
 				historicoRepository.save(historico);

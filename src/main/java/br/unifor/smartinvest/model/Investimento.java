@@ -28,6 +28,7 @@ public class Investimento{
 		this.id = id;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
@@ -35,12 +36,14 @@ public class Investimento{
 		this.nome = nome;
 	}
 
+
 	public Cliente getCliente() {
 		return cliente;
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
 
 	public Corretora getCorretora() {
 		return corretora;

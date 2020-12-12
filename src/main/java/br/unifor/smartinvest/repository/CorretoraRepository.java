@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface CorretoraRepository extends JpaRepository<Corretora, Integer> {
 
-	Optional<Corretora> findByNomeLikeIgnoreCase(String id);
-
+	Optional<Corretora> findByNomeLikeIgnoreCase(String nome);
 
 }
