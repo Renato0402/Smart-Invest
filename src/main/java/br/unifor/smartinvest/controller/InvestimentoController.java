@@ -2,116 +2,61 @@ package br.unifor.smartinvest.controller;
 
 import br.unifor.smartinvest.model.Historico;
 import br.unifor.smartinvest.model.Investimento;
+import br.unifor.smartinvest.service.InvestimentoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/investimentos")
 public class InvestimentoController {
-	private ArrayList<Investimento> listaInvestimentos;
+	private final InvestimentoService investimentoService;
 
-	public InvestimentoController() {
-		this.listaInvestimentos = new ArrayList<>();
+	public InvestimentoController(InvestimentoService investimentoService) {
+		this.investimentoService = investimentoService;
 	}
 
-	// Filtrar investimento pelo id do cliente
-	@GetMapping("/clientes/{id}")
-	public ResponseEntity<ArrayList<Investimento>> getInvestimentosPorCliente(@PathVariable int id) {
-		ArrayList<Investimento> investimentos = this.listaInvestimentos;
 
-		investimentos = filtrarInvestimentosPorCliente(investimentos, id);
-
-		return ResponseEntity.ok(investimentos);
+	// Obter investimento por id
+	@GetMapping("/{id}")
+	public ResponseEntity getById(@PathVariable("id") Integer id) {
+		return investimentoService.getById(id);
 	}
 
-	// Filtrar investimento pelo id do cliente e id de corretora
-	@GetMapping("clientes/{clienteId}/corretoras/{corretoraId}")
-	public ResponseEntity<ArrayList<Investimento>> getInvestimentosCorretoraCliente(@PathVariable int clienteId, @PathVariable int corretoraId) {
-		ArrayList<Investimento> investimentos = this.listaInvestimentos;
 
-		investimentos = filtrarInvestimentosPorCorretora(investimentos, corretoraId);
-		investimentos = filtrarInvestimentosPorCliente(investimentos, clienteId);
-
-		return ResponseEntity.ok(investimentos);
+	// Obter investimento por id de cliente (compartilhamento definido por variável em url 'clientes/id/')
+	@GetMapping({"/clientes/{cliente_id}", "/clientes/{cliente_id}/{compartilhado}"})
+	public ResponseEntity getByClienteId(
+			@PathVariable("cliente_id") Integer cliente_id,
+			@PathVariable(value = "compartilhado", required = false) boolean compartilhado
+	) {
+		return investimentoService.getInvestimentosByClienteId(cliente_id, compartilhado);
 	}
 
-	// Adicionar um investimento
+
+	// Obter todos investimentos de um cliente realizados em uma determinada corretora
+	@GetMapping("/clientes/{cliente_id}/corretoras/{corretora_id}")
+	public ResponseEntity getAllInvestimentosFromClienteInCorretora(@PathVariable("cliente_id") Integer cliente_id, @PathVariable("corretora_id") Integer corretora_id) {
+		return investimentoService.getAllInvestimentosFromClienteInCorretora(cliente_id, corretora_id);
+	}
+
+
+	// Adicionar investimento
 	@PostMapping
-	public ResponseEntity<String> post(@RequestBody Investimento investimento) {
-		if (adicionarInvestimento(investimento))
-			return ResponseEntity.ok("Investimento cadastrado com sucesso!");
-
-		return ResponseEntity.badRequest().body("Erro ao cadastrar investimento!");
+	public ResponseEntity addInvestiment(@RequestBody Investimento investimento) {
+		return investimentoService.addInvestimento(investimento);
 	}
 
-	// Simular a inserção de um histórico resultante de uma transação entre cliente e corretora em um investimento
+
+	// Adicionar histórico em investimento
 	@PostMapping("/{id}/historicos")
-	public ResponseEntity<String> post(@PathVariable("id") int id, @RequestBody Historico historico) {
-		Investimento investimento = buscarInvestimentoPorId(id);
-
-		if (investimento == null)
-			return ResponseEntity.badRequest().body("Erro ao cadastrar investimento!");
-
-		investimento.addHistorico(historico);
-		return ResponseEntity.ok("Novo histórico alterado!");
+	public ResponseEntity addHistoricoInInvestimento(@PathVariable("id") Integer id, @RequestBody Historico historico) {
+		return investimentoService.addHistoricoInInvestimento(id, historico);
 	}
 
-	// Remover um investimento ao buscar pelo seu próprio id
-	@DeleteMapping("{id}")
-	public ResponseEntity<String> delete(@PathVariable int id) {
-		if(removerInvestimento(id))
-			return ResponseEntity.ok("Remoção de investimento realizada com sucesso!");
 
-		return ResponseEntity.badRequest().body("Erro ao remover investimento!");
-	}
-
-	//// Funções
-	private boolean adicionarInvestimento(Investimento investimento) {
-		if(investimento == null) return false;
-
-		for(Investimento i: listaInvestimentos)
-			if(investimento.getId() == i.getId())
-				return false;
-
-		listaInvestimentos.add(investimento);
-		return true;
-	}
-
-	private Investimento buscarInvestimentoPorId(int id) {
-		for(Investimento i: listaInvestimentos)
-			if(i.getId() == id)
-				return i;
-
-		return null;
-	}
-
-	private boolean removerInvestimento(int id) {
-		Investimento investimento = buscarInvestimentoPorId(id);
-
-		if(investimento == null)
-			return false;
-
-		listaInvestimentos.remove(investimento);
-		return true;
-	}
-
-	private ArrayList<Investimento> filtrarInvestimentosPorCliente(ArrayList<Investimento> investimentos, int cliente_id) {
-		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
-		for(Investimento i: investimentos)
-			if(i.getClienteId() == cliente_id)
-				investimentosFiltrados.add(i);
-
-		return investimentosFiltrados;
-	}
-
-	private ArrayList<Investimento> filtrarInvestimentosPorCorretora(ArrayList<Investimento> investimentos, int corretora_id) {
-		ArrayList<Investimento> investimentosFiltrados = new ArrayList<>();
-		for(Investimento i: investimentos)
-			if(i.getCorretoraId() == corretora_id)
-				investimentosFiltrados.add(i);
-
-		return investimentosFiltrados;
+	// Atualizar investimento por id
+	@PutMapping("/{id}")
+	public ResponseEntity updateInvestiment(@PathVariable("id") Integer id, @RequestBody Investimento investimento) {
+		return investimentoService.updateInvestimento(id, investimento);
 	}
 }

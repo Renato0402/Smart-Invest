@@ -1,36 +1,54 @@
 package br.unifor.smartinvest.model;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 
-public class Investimento extends Entidade{
+@Entity
+@Table(name = "investimentos")
+public class Investimento{
 
-	private int cliente_id;
-	private int corretora_id;
-	private ArrayList<Historico> historicos;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 
-	public Investimento(int id, String nome_empresa, int cliente_id, int corretora_id) {
+	private String nome;
+
+	@ManyToOne
+	private Cliente cliente;
+
+	@ManyToOne
+	private Corretora corretora;
+
+	public Investimento() {
+	}
+
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
 		this.id = id;
-		this.nome = nome_empresa;
-		this.cliente_id = cliente_id;
-		this.corretora_id = corretora_id;
-		this.historicos = new ArrayList<>();
 	}
 
-	public void addHistorico(Historico historico) {
-		if(historico == null)
-			return;
 
-		this.historicos.add(historico);
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public ArrayList<Historico> getHistoricos() {
-		return historicos;
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
-	public int getClienteId() {
-		return cliente_id;
+
+	public Corretora getCorretora() {
+		return corretora;
 	}
-	public int getCorretoraId() {
-		return corretora_id;
+	public void setCorretora(Corretora corretora) {
+		this.corretora = corretora;
 	}
 }
